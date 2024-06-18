@@ -37,7 +37,7 @@ $PAGE->set_title(get_string('pluginname', 'block_disealytics'));
 // Get Course ID from url to be able to redirect.
 $courseid = optional_param('id', null, PARAM_INT);
 // Check id user is already in Database.
-$user = $DB->get_record('block_disealytics_consent', ['userid' => $USER->id]);
+$consentdata = $DB->get_record('block_disealytics_consent', ['userid' => $USER->id]);
 
 // Create redirecting url.
 $url = $CFG->wwwroot.'/blocks/disealytics/consent.php?id=' . $courseid;
@@ -46,48 +46,38 @@ $courseurl = $CFG->wwwroot . '/course/view.php?id=' . $courseid;
 $counter = get_config("block_disealytics", "counter") ?: 1;
 
 // Make the form.
-$mform = new consent_form($url);
-if ($user) {
-    $mform->set_data(['agreedis' => $user->choice]);
-}
+$mform = new consent_form($url, ["prevchoice" => $consentdata ? $consentdata->choice : 0]);
 
 // Check response from consent_form.
 if ($mform->is_cancelled()) {
-    if (!$user || $user->counter < $counter) {
+    if (!$consentdata || $consentdata->counter < $counter) {
         // If user wasn't in database and wants to cancel, stay on this page.
         redirect($url);
     } else {
         // If user is already in database and cancels, return to course.
         redirect($courseurl);
     }
-} else if ($fromform = $mform->get_data()) {
-    $id = $_POST['agreedis'];
-
-    if ($id == null) {
-        redirect($url, get_string('no_choice', 'block_disealytics'), \core\output\notification::NOTIFY_ERROR);
+} else if (($formdata = data_submitted()) && confirm_sesskey()) {
+    if ($formdata->useragrees == null) {
+        redirect($url, get_string('no_choice', 'block_disealytics'), null, \core\output\notification::NOTIFY_ERROR);
     }
 
-    $choice = 0;
-    if ($id === '1') {
-        $choice = 1;
-    }
-
-    if (!$user) {
+    if (!$consentdata) {
         // If user is not in the database.
-        $recordtoinsert = new stdClass();
-        $recordtoinsert->userid = $USER->id;
-        $recordtoinsert->counter = $counter;
-        $recordtoinsert->choice = $choice;
-        $recordtoinsert->timecreated = time();
-        $recordtoinsert->timemodified = time();
-        $DB->insert_record('block_disealytics_consent', $recordtoinsert);
+        $consententry = new stdClass();
+        $consententry->userid = $USER->id;
+        $consententry->counter = $counter;
+        $consententry->choice = intval($formdata->useragrees);
+        $consententry->timecreated = time();
+        $consententry->timemodified = time();
+        $DB->insert_record('block_disealytics_consent', $consententry);
         redirect($courseurl, get_string('database_insert', 'block_disealytics'));
     } else {
         // If user is in database, it needs to be updated.
-        $user->choice = $choice;
-        $user->counter = $counter;
-        $user->timemodified = time();
-        $DB->update_record('block_disealytics_consent', $user);
+        $consentdata->choice = intval($formdata->useragrees);
+        $consentdata->counter = $counter;
+        $consentdata->timemodified = time();
+        $DB->update_record('block_disealytics_consent', $consentdata);
         redirect($courseurl, get_string('database_update', 'block_disealytics'));
     }
 }
