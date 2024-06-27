@@ -44,6 +44,24 @@ class provider implements core_userlist_provider, \core_privacy\local\metadata\p
      */
     public static function get_metadata(collection $collection): collection {
         $collection->add_database_table(
+            'block_disealytics_user_dates',
+            [
+                        'id' => 'privacy:metadata:user_dates_id',
+                        'name' => 'privacy:metadata:user_dates_name',
+                        'usermodified' => 'privacy:metadata:user_dates_usermodified',
+                        'courseid' => 'privacy:metadata:user_dates_courseid',
+                        'userid' => 'privacy:metadata:user_dates_userid',
+                        'timecreated' => 'privacy:metadata:user_dates_timecreated',
+                        'timemodified' => 'privacy:metadata:user_dates_timemodified',
+                        'timestart' => 'privacy:metadata:user_dates_timestart',
+                        'timeduration' => 'privacy:metadata:user_dates_timeduration',
+                        'location' => 'privacy:metadata:user_dates_location',
+                        'eventtype' => 'privacy:metadata:user_dates_eventtype',
+                        'repeatid' => 'privacy:metadata:user_dates_repeatid',
+                ],
+            'privacy:metadata:block_disealytics_user_dates'
+        );
+        $collection->add_database_table(
             'block_disealytics_user_goals',
             [
                         'id' => 'privacy:metadata:user_goal_id',
@@ -150,6 +168,7 @@ class provider implements core_userlist_provider, \core_privacy\local\metadata\p
         $sql = "SELECT g.userid, p.userid
         FROM {block_disealytics_user_goals} g
         JOIN {block_disealytics_user_pages} p ON g.userid = p.userid
+        JOIN {block_disealytics_user_dates} d ON g.userid = d.userid
         JOIN {context} ctx ON ctx.instanceid = g.userid AND ctx.contextlevel = :contextuser";
 
         $params = ['contextid' => $context->id, 'contextuser' => CONTEXT_USER];
@@ -167,6 +186,7 @@ class provider implements core_userlist_provider, \core_privacy\local\metadata\p
         global $DB;
         $context = $userlist->get_context();
         if ($context instanceof context_user) {
+            $DB->delete_records('block_disealytics_user_dates', ['userid' => $context->instanceid]);
             $DB->delete_records('block_disealytics_user_goals', ['userid' => $context->instanceid]);
             $DB->delete_records('block_disealytics_user_pages', ['userid' => $context->instanceid]);
             $DB->delete_records('block_disealytics_consent', ['userid' => $context->instanceid]);
@@ -184,6 +204,7 @@ class provider implements core_userlist_provider, \core_privacy\local\metadata\p
     public static function delete_data_for_all_users_in_context(context $context): void {
         global $DB;
         if ($context->contextlevel == CONTEXT_USER) {
+            $DB->delete_records('block_disealytics_user_dates', ['userid' => $context->instanceid]);
             $DB->delete_records('block_disealytics_user_goals', ['userid' => $context->instanceid]);
             $DB->delete_records('block_disealytics_user_pages', ['userid' => $context->instanceid]);
             $DB->delete_records('block_disealytics_consent', ['userid' => $context->instanceid]);
@@ -203,6 +224,10 @@ class provider implements core_userlist_provider, \core_privacy\local\metadata\p
         global $DB;
         $contexts = $contextlist->get_contexts();
         foreach ($contexts as $context) {
+            $sqldate = "SELECT * FROM {block_disealytics_user_dates} WHERE userid = :userid";
+            $paramsdate = ['userid' => $user->id];
+            $datedata = $DB->get_records_sql($sqldate, $paramsdate);
+
             $sqlgoal = "SELECT * FROM {block_disealytics_user_goals} WHERE userid = :userid";
             $paramsgoal = ['userid' => $user->id];
             $goaldata = $DB->get_records_sql($sqlgoal, $paramsgoal);
@@ -220,12 +245,13 @@ class provider implements core_userlist_provider, \core_privacy\local\metadata\p
             $tasksdata = $DB->get_records_sql($sqltasks, $paramstasks);
 
             $exporteddata = (object) [
+                    'dateData' => $datedata,
                     'goalData' => $goaldata,
                     'pagesData' => $pagesdata,
                     'consentData' => $consentdata,
                     'tasksData' => $tasksdata,
             ];
-            writer::with_context($context)->export_data(['goal and pages and consent and tasks'], $exporteddata);
+            writer::with_context($context)->export_data(['dates and goal and pages and consent and tasks'], $exporteddata);
         }
     }
 
@@ -251,6 +277,7 @@ class provider implements core_userlist_provider, \core_privacy\local\metadata\p
                 Context Level - $context->contextlevel,
                 User ID - $context->instanceid<br>";
 
+                $DB->delete_records('block_disealytics_user_dates', ['userid' => $context->instanceid]);
                 $DB->delete_records('block_disealytics_user_goals', ['userid' => $context->instanceid]);
                 $DB->delete_records('block_disealytics_user_pages', ['userid' => $context->instanceid]);
                 $DB->delete_records('block_disealytics_consent', ['userid' => $context->instanceid]);
