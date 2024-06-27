@@ -48,7 +48,7 @@ class delete_learning_goal extends external_api {
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'goalid' => new external_value(
-                PARAM_RAW,
+                PARAM_INT,
                 'Goal id',
                 VALUE_REQUIRED
             ),

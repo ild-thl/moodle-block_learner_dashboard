@@ -48,12 +48,12 @@ class update_planner_event extends external_api {
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
                 'updatetype' => new external_value(
-                    PARAM_RAW,
+                    PARAM_TEXT,
                     'The updatetype of the event (add, delete or update).',
                     VALUE_REQUIRED
                 ),
                 'dateid' => new external_value(
-                    PARAM_RAW,
+                    PARAM_INT,
                     'The date id, 0 if no date is created yet.',
                     VALUE_REQUIRED
                 ),
@@ -63,17 +63,17 @@ class update_planner_event extends external_api {
                     VALUE_OPTIONAL
                 ),
                 'courseid' => new external_value(
-                    PARAM_RAW,
+                    PARAM_INT,
                     'The course id, that is saved for the date.',
                     VALUE_OPTIONAL
                 ),
                 'timestart' => new external_value(
-                    PARAM_RAW,
+                    PARAM_INT,
                     'The timestamp the date starts.',
                     VALUE_OPTIONAL
                 ),
                 'timeduration' => new external_value(
-                    PARAM_RAW,
+                    PARAM_INT,
                     'The time the date lasts, 0 if no end date or duration is given.',
                     VALUE_OPTIONAL
                 ),
@@ -83,12 +83,12 @@ class update_planner_event extends external_api {
                     VALUE_OPTIONAL
                 ),
                 'eventtype' => new external_value(
-                    PARAM_RAW,
+                    PARAM_INT,
                     'An eventtype, that is saved for the date. Options: 1, 2, 3',
                     VALUE_OPTIONAL
                 ),
                 'repetitions' => new external_value(
-                    PARAM_RAW,
+                    PARAM_INT,
                     'A number of repetitions or 0 if there is no repetition.',
                     VALUE_OPTIONAL
                 ),

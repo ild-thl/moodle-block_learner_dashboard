@@ -51,16 +51,16 @@ class optional_input extends external_api {
         return new external_function_parameters([
                 'calltype' => new external_value(
                     PARAM_RAW,
-                    'Defines the type calltype. calltype might be adding, deleting or updating',
+                    'Defines the type calltype. Calltype might be adding, deleting or updating',
                     VALUE_REQUIRED
                 ),
                 'id' => new external_value(
-                    PARAM_RAW,
+                    PARAM_INT,
                     'ID of the optional input',
                     VALUE_OPTIONAL
                 ),
                 'courseid' => new external_value(
-                    PARAM_RAW,
+                    PARAM_INT,
                     'currently visiting course id',
                     VALUE_OPTIONAL
                 ),
@@ -70,17 +70,17 @@ class optional_input extends external_api {
                     VALUE_OPTIONAL
                 ),
                 'currentpage' => new external_value(
-                    PARAM_RAW,
+                    PARAM_INT,
                     'Page that the user finished reading last',
                     VALUE_OPTIONAL
                 ),
                 'lastpage' => new external_value(
-                    PARAM_RAW,
+                    PARAM_INT,
                     'Final page of the document',
                     VALUE_OPTIONAL
                 ),
                 'expenditureoftime' => new external_value(
-                    PARAM_RAW,
+                    PARAM_INT,
                     'Expenditure of time',
                     VALUE_OPTIONAL
                 ),
