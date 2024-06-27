@@ -51,12 +51,12 @@ class add_learning_goal extends external_api {
 
         return new external_function_parameters([
                 'courseid' => new external_value(
-                    PARAM_RAW,
+                    PARAM_INT,
                     'course id',
                     VALUE_REQUIRED
                 ),
                 'duedate' => new external_value(
-                    PARAM_RAW,
+                    PARAM_INT,
                     'A date, that shows the deadline of the goal',
                     VALUE_REQUIRED
                 ),

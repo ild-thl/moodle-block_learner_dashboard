@@ -52,11 +52,11 @@ class change_planner_view extends external_api {
      */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
-                'courseid' => new external_value(PARAM_RAW, 'course id', VALUE_REQUIRED),
-                'day' => new external_value(PARAM_RAW, 'The selected day', VALUE_REQUIRED),
-                'month' => new external_value(PARAM_RAW, 'The selected month', VALUE_REQUIRED),
-                'year' => new external_value(PARAM_RAW, 'The selected year', VALUE_REQUIRED),
-                'direction' => new external_value(PARAM_RAW, 'The direction of the view change', VALUE_REQUIRED),
+                'courseid' => new external_value(PARAM_INT, 'course id', VALUE_REQUIRED),
+                'day' => new external_value(PARAM_INT, 'The selected day', VALUE_REQUIRED),
+                'month' => new external_value(PARAM_INT, 'The selected month', VALUE_REQUIRED),
+                'year' => new external_value(PARAM_INT, 'The selected year', VALUE_REQUIRED),
+                'direction' => new external_value(PARAM_TEXT, 'The direction of the view change', VALUE_REQUIRED),
         ]);
     }
 

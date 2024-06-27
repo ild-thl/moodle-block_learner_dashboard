@@ -48,12 +48,12 @@ class update_learning_goal extends external_api {
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'goalid' => new external_value(
-                PARAM_RAW,
+                PARAM_INT,
                 'Goal id',
                 VALUE_REQUIRED
             ),
             'duedate' => new external_value(
-                PARAM_RAW,
+                PARAM_INT,
                 'A date, that shows the deadline of the goal',
                 VALUE_REQUIRED
             ),
@@ -63,7 +63,7 @@ class update_learning_goal extends external_api {
                 VALUE_REQUIRED
             ),
             'finished' => new external_value(
-                PARAM_RAW,
+                PARAM_BOOL,
                 'Checks if target is finished',
                 VALUE_REQUIRED
             ),
