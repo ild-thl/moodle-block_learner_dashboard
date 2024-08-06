@@ -21,6 +21,7 @@ require_once($CFG->dirroot . '/blocks/disealytics/classes/view/base_view.php');
 
 require_once($CFG->dirroot . '/blocks/disealytics/classes/data/task.php');
 
+use ArrayIterator;
 use block_disealytics\data\course;
 use block_disealytics\data\style;
 use block_disealytics\data\task;
@@ -62,9 +63,9 @@ class activity_view extends base_view {
         $this->learningdata = $learningdata;
     }
 
-
     /**
      * Get the output for the viewmode: module.
+     *
      * @return array
      * @throws coding_exception
      * @throws Exception
@@ -104,20 +105,20 @@ class activity_view extends base_view {
      * @throws dml_exception
      */
     private function get_course_output(stdClass $course, bool $global = false): array {
-        $monday = (new DateTime("previous week monday"))->format("U");
-        $sunday = (new DateTime("now"))->format("U");
+        $monday = (new DateTime("last monday"))->format("U");
+        $now = (new DateTime("now"))->format("U");
         $output = null;
 
         $output["coursename"] = $course->coursename;
-        $tasks = task::block_disealytics_get_user_tasks($monday, $sunday, $course->courseid);
+        $tasks = task::block_disealytics_get_user_tasks($monday, $now, $course->courseid);
         $output["datadate"] = get_string("nodata", 'block_disealytics');
         if (count($tasks) > 0) {
             global $DB;
             // Get Time of last run of Log Task.
             $transformtime = 0;
             $transformtimes = array_column(
-                $DB->get_records('task_log', ["classname" => "block_disealytics\\task\\tasktransform"]),
-                'timestart'
+                    $DB->get_records('task_log', ["classname" => "block_disealytics\\task\\tasktransform"]),
+                    'timestart'
             );
             if (count($transformtimes) > 0) {
                 $transformtime = max($transformtimes);
@@ -132,54 +133,57 @@ class activity_view extends base_view {
             $chart1 = new chart_bar();
             $chart1->set_stacked(true);
             $groupedtasks = task::block_disealytics_make_task_buckets($groupedtasks, "weekdays");
-            $colors =
-                [style::BLOCK_DISEALYTICS_ORANGE, style::BLOCK_DISEALYTICS_SECONDARY_BLUE,
-                    style::BLOCK_DISEALYTICS_HIGHLIGHT_BLUE];
+            $colors = new ArrayIterator([
+                    style::BLOCK_DISEALYTICS_HIGHLIGHT_BLUE,
+                    style::BLOCK_DISEALYTICS_SECONDARY_BLUE,
+                    style::BLOCK_DISEALYTICS_ORANGE,
+            ]);
             while (count($groupedtasks) > 0) {
                 $key = array_key_last($groupedtasks);
                 $values = array_pop($groupedtasks);
                 $series = new chart_series("$key", array_values($values));
-                $color = array_pop($colors);
-                $series->set_color($color);
-                array_unshift($colors, $color);
+                $series->set_color($colors->current());
+                $colors->next();
                 $chart1->add_series($series);
             }
-            $chart1->set_labels(array_map(function ($day) {
+            $colors->rewind();
+            $chart1->set_labels(array_map(function($day) {
                 return substr(get_string($day, 'block_disealytics'), 0, 2);
             }, [
-                'Monday',
-                'Tuesday',
-                'Wednesday',
-                'Thursday',
-                'Friday',
-                'Saturday',
-                'Sunday',
+                    'Monday',
+                    'Tuesday',
+                    'Wednesday',
+                    'Thursday',
+                    'Friday',
+                    'Saturday',
+                    'Sunday',
             ]));
             $output['maincharts'][] = ['chartdata' => json_encode($chart1), 'withtable' => true,
-                'uniqid' => uniqid('block_disealytics_')];
-                $dates = learningdata::get_current_halfyear_dates();
-                $start = $dates["start"];
-                $end = $dates["end"];
-                $halfyeartasks = task::block_disealytics_get_user_tasks($start->format("U"), $end->format("U"), $course->courseid);
-                $halfyeartasks = task::block_disealytics_group_and_reduce($halfyeartasks);
-                $halfyeartasks = array_reverse($halfyeartasks, true);
+                    'uniqid' => uniqid('block_disealytics_')];
+            $dates = learningdata::get_current_halfyear_dates();
+            $start = $dates["start"];
+            $end = $dates["end"];
+            $halfyeartasks = task::block_disealytics_get_user_tasks($start->format("U"), $end->format("U"), $course->courseid);
+            $halfyeartasks = task::block_disealytics_group_and_reduce($halfyeartasks);
+            $halfyeartasks = array_reverse($halfyeartasks, true);
 
-                $halfyeartasks = task::block_disealytics_make_task_buckets(
+            $halfyeartasks = task::block_disealytics_make_task_buckets(
                     $halfyeartasks,
                     "weeks",
                     base_view::get_weeknrs($start, $end)
-                );
-                $chart2 = new chart_bar();
-                $chart2->set_stacked(true);
+            );
+            $chart2 = new chart_bar();
+            $chart2->set_stacked(true);
             while (count($halfyeartasks) > 0) {
                 $key = array_key_last($halfyeartasks);
                 $values = array_pop($halfyeartasks);
                 $series = new chart_series("$key", array_values($values));
-                $series->set_color(array_pop($colors));
+                $series->set_color($colors->current());
+                $colors->next();
                 $chart2->add_series($series);
             }
-                $chart2->set_labels(base_view::get_weeknrs($start, $end));
-                $output['detailcharts'][] = ['chartdata' => json_encode($chart2), 'withtable' => true,
+            $chart2->set_labels(base_view::get_weeknrs($start, $end));
+            $output['detailcharts'][] = ['chartdata' => json_encode($chart2), 'withtable' => true,
                     'uniqid' => uniqid('block_disealytics_')];
         }
         return $output;
@@ -187,6 +191,7 @@ class activity_view extends base_view {
 
     /**
      * Get the output for the viewmode: halfyear.
+     *
      * @throws coding_exception
      * @throws dml_exception
      */
@@ -217,6 +222,7 @@ class activity_view extends base_view {
 
     /**
      * Get the output for the viewmode: global.
+     *
      * @throws coding_exception
      * @throws dml_exception
      */
