@@ -39,11 +39,11 @@ class style {
     /**
      * Map a value from one range to another.
      *
-     * @param mixed $val
-     * @param mixed $inputmin
-     * @param mixed $inputmax
-     * @param mixed $outputmin
-     * @param mixed $outputmax
+     * @param $val
+     * @param $inputmin
+     * @param $inputmax
+     * @param $outputmin
+     * @param $outputmax
      * @return float|int
      */
     public static function map($val, $inputmin, $inputmax, $outputmin, $outputmax) {

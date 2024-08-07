@@ -53,7 +53,7 @@ class activity_view extends base_view {
     /**
      * activity_view constructor.
      *
-     * @param mixed $timeframe
+     * @param $timeframe
      * @param learningdata $learningdata
      * @throws Exception
      */

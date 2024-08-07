@@ -32,33 +32,33 @@ use stdClass;
  */
 class planner {
     /**
-     * @var mixed $day The day of the month.
+     * @var $day The day of the month.
      */
-    private mixed $day;
+    private $day;
     /**
-     * @var mixed $dayname The name of the day.
+     * @var $dayname The name of the day.
      */
-    private mixed $dayname;
+    private $dayname;
     /**
-     * @var mixed $month The month of the year.
+     * @var $month The month of the year.
      */
-    private mixed $month;
+    private $month;
     /**
-     * @var mixed $monthname The name of the month.
+     * @var $monthname The name of the month.
      */
-    private mixed $monthname;
+    private $monthname;
     /**
-     * @var mixed $year The year.
+     * @var $year The year.
      */
-    private mixed $year;
+    private $year;
     /**
-     * @var mixed $time The time.
+     * @var $time The time.
      */
-    private mixed $time;
+    private $time;
     /**
-     * @var mixed $storage The storage.
+     * @var $storage The storage.
      */
-    private mixed $storage;
+    private $storage;
     /**
      * The DATETABLE to save all user events/dates.
      */

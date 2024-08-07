@@ -44,10 +44,10 @@ class task {
     /**
      * Group the tasks by component and reduce the number of groups to three.
      *
-     * @param mixed $tasks
+     * @param $tasks
      * @return array
      */
-    public static function block_disealytics_group_and_reduce(mixed $tasks): array {
+    public static function block_disealytics_group_and_reduce($tasks): array {
         $groupedtasks = [];
         foreach ($tasks as $task) {
             $groupedtasks[strtolower($task->component)][] = $task;

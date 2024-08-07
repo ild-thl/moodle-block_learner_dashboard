@@ -52,11 +52,11 @@ class progress_bar_view extends base_view {
     /**
      * progress_bar_view constructor.
      *
-     * @param mixed $timeframe
+     * @param $timeframe
      * @param learningdata $learningdata
      * @throws Exception
      */
-    public function __construct(mixed $timeframe, learningdata $learningdata) {
+    public function __construct($timeframe, learningdata $learningdata) {
         parent::__construct($timeframe);
         $this->learningdata = $learningdata;
     }
@@ -64,11 +64,11 @@ class progress_bar_view extends base_view {
     /**
      * Checks if name exists.
      *
-     * @param mixed $name
-     * @param mixed $array
+     * @param $name
+     * @param $array
      * @return bool
      */
-    private function check_name_exists(mixed $name, mixed $array): bool {
+    private function check_name_exists($name, $array): bool {
         foreach ($array as $obj) {
             if ($name === $obj->documentname) {
                 return true;
@@ -143,13 +143,13 @@ class progress_bar_view extends base_view {
     /**
      * Generate chart and preview.
      *
-     * @param mixed $data
-     * @param mixed $initalbars
-     * @param mixed $course
+     * @param $data
+     * @param $initalbars
+     * @param $course
      * @return bool
      * @throws coding_exception
      */
-    private function generate_chart_and_preview(mixed $data, mixed $initalbars, mixed $course): bool {
+    private function generate_chart_and_preview($data, $initalbars, $course): bool {
         if (!empty($data) && $course->courseid != 1) {
             $readpages = [];
             $lastpages = [];

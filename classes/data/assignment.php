@@ -143,7 +143,7 @@ class assignment {
     /**
      * Constructor for the assignment class.
      *
-     * @param mixed $moduleinfo The module information of the assignment
+     * @param $moduleinfo The module information of the assignment
      * @param int|null $courseid The ID of the course
      * @throws dml_exception
      */
@@ -240,7 +240,7 @@ class assignment {
 
     /**
      * Get the set due date of the assignment.
-     * @return mixed Returns the due date of the assignment.
+     * @return Returns the due date of the assignment.
      */
     private function block_disealytics_get_duedate() {
         return $this->assign->duedate;
@@ -281,7 +281,7 @@ class assignment {
 
     /**
      * Get the grade type of assignment.
-     * @return mixed Returns the grade type of assignment.
+     * @return Returns the grade type of assignment.
      */
     public function block_disealytics_get_gradetype() {
         return $this->gradeitem->gradetype;

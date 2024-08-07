@@ -224,13 +224,13 @@ class assignment_view extends base_view {
 
     /**
      * Generate the assignments for the view.
-     * @param mixed $course
+     * @param $course
      * @param array $assignments
      * @return void
      * @throws coding_exception
      * @throws moodle_exception
      */
-    protected function block_disealytics_generate_assignments(mixed $course, array $assignments): void {
+    protected function block_disealytics_generate_assignments($course, array $assignments): void {
         if ($course->courseid != 1 && count($assignments) > 0) {
             $table = [];
             $table["table"] = true;

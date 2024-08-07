@@ -200,11 +200,11 @@ class learningdata {
 
     /**
      * Get logs
-     * @param mixed $filter
+     * @param $filter
      * @return mixed
      * @throws dml_exception
      */
-    public function get_logs($filter = null): mixed {
+    public function get_logs($filter = null) {
         if (!$this->storage['logs']) {
             global $DB, $USER;
             $this->storage['logs'] = $DB->get_records(
@@ -242,11 +242,11 @@ class learningdata {
     /**
      * Add goal to storage
      *
-     * @param mixed $dbgoal
+     * @param $dbgoal
      * @return stdClass
      * @throws dml_exception
      */
-    private function add_goal_to_storage(mixed $dbgoal): stdClass {
+    private function add_goal_to_storage($dbgoal): stdClass {
         global $COURSE;
         $target = self::generate_unique_number();
         // Implement attributes to use in the mustache template.
@@ -277,7 +277,7 @@ class learningdata {
      * @return mixed
      * @throws dml_exception
      */
-    private function get_coursename_from_id(int $courseid): mixed {
+    private function get_coursename_from_id(int $courseid) {
         global $DB;
         return $DB->get_field('course', 'fullname', ['id' => $courseid]);
     }
@@ -334,7 +334,7 @@ class learningdata {
      * @return mixed
      * @throws dml_exception
      */
-    public function get_finished_goals(?int $courseid = null): mixed {
+    public function get_finished_goals(?int $courseid = null) {
         if (!$this->storage['finished_goals']) {
             global $DB, $USER, $COURSE;
             $goals = $DB->get_records(
