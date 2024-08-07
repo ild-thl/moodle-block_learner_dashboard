@@ -536,8 +536,10 @@
 }
 
 .block_disealytics .goal-content {
-    width: -moz-available; /* stylelint-disable-line csstree/validator */
-    width: -webkit-fill-available; /* stylelint-disable-line csstree/validator *//* stylelint-disable-line declaration-block-no-duplicate-properties  */
+    /* stylelint-disable csstree/validator, declaration-block-no-duplicate-properties */
+    width: -moz-available;
+    width: -webkit-fill-available;
+    /* stylelint-enable csstree/validator, declaration-block-no-duplicate-properties */
 }
 
 .block_disealytics .goal-content .goal-date {
@@ -666,8 +668,10 @@
 .block_disealytics .accordion-content.edit-mode .goal-view-mode {
     border: 1px solid var(--disea-lightgray);
     padding: .5em;
-    width: -moz-available; /* stylelint-disable-line csstree/validator */
-    width: -webkit-fill-available; /* stylelint-disable-line csstree/validator *//* stylelint-disable-line declaration-block-no-duplicate-properties  */
+    /* stylelint-disable csstree/validator, declaration-block-no-duplicate-properties */
+    width: -moz-available;
+    width: -webkit-fill-available;
+    /* stylelint-enable csstree/validator, declaration-block-no-duplicate-properties */
     margin: 5px !important; /* stylelint-disable-line declaration-no-important */
     grid-template-columns: 2fr 0.5fr;
     grid-template-areas:
@@ -685,8 +689,10 @@
 /* edit single goal */
 
 .block_disealytics .accordion-content.edit-mode .goal-edit-mode * {
-    width: -moz-available; /* stylelint-disable-line csstree/validator */
-    width: -webkit-fill-available; /* stylelint-disable-line csstree/validator *//* stylelint-disable-line declaration-block-no-duplicate-properties  */
+    /* stylelint-disable csstree/validator, declaration-block-no-duplicate-properties */
+    width: -moz-available;
+    width: -webkit-fill-available;
+    /* stylelint-enable csstree/validator, declaration-block-no-duplicate-properties */
 }
 
 .block_disealytics .accordion-content.edit-mode .goal-edit-mode {

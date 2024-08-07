@@ -165,42 +165,22 @@ export const unsetOld = (view) => {
 
 /**
  * Selectors object to access miscellaneous data-attributes
- * @type {{actions: {select_toggleExpansion_actiontype: string},
- * views: {select_everyView_container: string, select_everyView_class: string},
- * misc: {select_editContainer: string}}}
+ * @type {{views: {selectEveryViewContainer: string}}}
  */
 export const selectors = {
-    actions: {
-        select_toggleExpansion_actiontype: '[data-actiontype="block_disealytics/toggle-expansion"]',
-    },
     views: {
-        select_everyView_container: '[data-containertype="block_disealytics/view-container"]',
-        select_everyView_class: ".view-container"
-    },
-    misc: {
-        select_editContainer: '[data-container="block_disealytics/edit-container"]',
+        selectEveryViewContainer: '[data-containertype="block_disealytics/view-container"]',
     },
 };
 
 /**
  * Inserts the viewname into the data-attributes, so they can be later used as selectors
  * @param {string} viewname in the format of 'viewname-view'
- * @returns {{select_view_container: string, select_view_class: string,
- * select_expandable_container: string, select_expandable_class: string,
- * actions: {select_add_attribute: string, select_add_class: string,
- * select_remove_attribute: string, select_toggleExpansion_attribute: string}}}
+ * @returns {{selectViewClass: string, selectExpandableClass: string}}
  */
 export const getViewSelectors = (viewname) => {
     return {
-        actions: {
-            select_add_attribute: '[data-action=\'block_disealytics/add-${viewname}\']',
-            select_add_class: ".block_disealytics-add-" + viewname,
-            select_remove_attribute: '[data-action=\'block_disealytics/remove-${viewname}\']',
-            select_toggleExpansion_attribute: '[data-action=\'block_disealytics/expand-${viewname}\']',
-        },
-        select_view_container: '[data-container=\'block_disealytics/${viewname}\']',
-        select_view_class: ".block_disealytics-container-" + viewname,
-        select_expandable_container: '[data-container=\'block_disealytics/expandable-${viewname}\']',
-        select_expandable_class: ".block_disealytics-expandable-" + viewname
+        selectViewClass: ".block_disealytics-container-" + viewname,
+        selectExpandableClass: ".block_disealytics-expandable-" + viewname
     };
 };

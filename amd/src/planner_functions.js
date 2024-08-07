@@ -313,7 +313,7 @@ export function getCombinedDateTime(dateId, timeId) {
  * @async
  * @function
  * @name addEventToPlanner
- * @returns {Promise<void>} - A promise that resolves when the event is successfully added to the planner.
+ * @returns {Promise<boolean>} - A promise that resolves when the event is successfully added to the planner.
  * @throws {Error} - Throws an error if there is an issue during the process.
  */
 export async function addEventToPlanner() {
@@ -464,6 +464,7 @@ export async function addEventToPlanner() {
     } catch (error) {
         window.console.error(error);
     }
+    return false;
 }
 
 /**
