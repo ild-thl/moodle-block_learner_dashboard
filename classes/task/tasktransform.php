@@ -37,7 +37,7 @@ class tasktransform extends scheduled_task {
      * Get the name of the task.
      * @throws coding_exception
      */
-    public function get_name(): lang_string|string {
+    public function get_name() {
         return get_string('task_tasktransform', 'block_disealytics');
     }
 
@@ -249,7 +249,7 @@ class tasktransform extends scheduled_task {
      * @param string $componentfilename
      * @return array|bool
      */
-    private static function redefinecomponents(array $data, string $componentfilename): bool|array {
+    private static function redefinecomponents(array $data, string $componentfilename) {
 
         $filecontent = self::readcsvfile($componentfilename, '20');
 
@@ -340,7 +340,7 @@ class tasktransform extends scheduled_task {
      * @param string $str
      * @return float|int
      */
-    private static function secondsfrom(string $str): float|int {
+    private static function secondsfrom(string $str) {
         $seconds = 0;
         $str = explode(" ", $str);
         $seconds *= $str[0];

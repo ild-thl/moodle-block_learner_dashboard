@@ -69,7 +69,7 @@ class learningdata {
      * @return bool|int
      * @throws dml_exception
      */
-    public static function add_goal_to_database(stdClass $newgoal): bool|int {
+    public static function add_goal_to_database(stdClass $newgoal) {
         global $DB;
         $now = (new DateTime())->format('U');
         $newgoal->timecreated = $now;

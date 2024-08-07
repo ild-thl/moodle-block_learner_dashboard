@@ -46,7 +46,7 @@ class style {
      * @param mixed $outputmax
      * @return float|int
      */
-    public static function map(mixed $val, mixed $inputmin, mixed $inputmax, mixed $outputmin, mixed $outputmax): float|int {
+    public static function map($val, $inputmin, $inputmax, $outputmin, $outputmax) {
         $inputrange = $inputmax - $inputmin;
         $outputrange = $outputmax - $outputmin;
         $scale = $outputrange / $inputrange;

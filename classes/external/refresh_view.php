@@ -52,7 +52,7 @@ class refresh_view extends external_api {
      * @throws invalid_parameter_exception
      * @throws Exception
      */
-    public static function execute(int $courseid, string $viewlist): bool|string {
+    public static function execute(int $courseid, string $viewlist) {
 
         self::validate_parameters(self::execute_parameters(), [
                 'courseid' => $courseid,

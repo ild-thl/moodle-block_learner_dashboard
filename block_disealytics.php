@@ -61,7 +61,7 @@ class block_disealytics extends block_base {
             return $this->content;
         }
 
-        if (!str_contains($this->page->pagetype, 'course-view-')) {
+        if (strpos($this->page->pagetype, 'course-view-') === false) {
             $this->content->text = get_string('course_alert', 'block_disealytics');
             return $this->content;
         }
