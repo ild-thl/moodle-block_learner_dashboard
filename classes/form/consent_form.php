@@ -39,12 +39,12 @@ class consent_form extends moodleform {
      * @throws coding_exception
      */
     public function definition(): void {
-        $choice = $this->_customdata['agreedis'];
+        $choice = $this->_customdata['prevchoice'];
 
         $mform = $this->_form;
-        $mform->addElement('radio', 'agreedis', '', get_string('disagree', 'block_disealytics'), '0');
-        $mform->addElement('radio', 'agreedis', '', get_string('agree', 'block_disealytics'), '1');
-        $mform->setDefault('agreedis', $choice);
+        $mform->addElement('radio', 'useragrees', '', get_string('disagree', 'block_disealytics'), '0');
+        $mform->addElement('radio', 'useragrees', '', get_string('agree', 'block_disealytics'), '1');
+        $mform->setDefault('useragrees', $choice);
         $this->add_action_buttons();
     }
 }
